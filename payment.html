@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkout & Payment</title>
+<style>
+  body {
+    font-family: Arial;
+    background: linear-gradient(to right, #f6d365, #fda085);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .step-box {
+    background: rgba(255,255,255,0.95);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    width: 400px;
+    text-align: center;
+    display: none; /* all hidden by default */
+  }
+  h2 { color: #333; margin-bottom: 10px; }
+  label { display:block; margin-top:10px; font-weight:bold; color:#333; }
+  input, textarea, select {
+    width:80%; padding:8px; margin-top:5px;
+    border-radius:5px; border:1px solid #ccc;
+  }
+  .btn {
+    background:#007bff;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    margin-top:15px;
+    cursor:pointer;
+    font-size:16px;
+  }
+  .btn:hover { background:#0056b3; }
+  .success { color:green; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<!-- 🛒 Step 1: Checkout -->
+<div id="checkoutStep" class="step-box" style="display:block;">
+  <h2>🛒 Checkout</h2>
+  <label>Name:</label>
+  <input type="text" id="name" placeholder="Enter your name" required>
+  <label>Address:</label>
+  <textarea id="address" placeholder="Enter your address" required></textarea>
+  <label>Phone:</label>
+  <input type="text" id="phone" placeholder="Enter your phone" required>
+  <label>Payment Method:</label>
+  <select id="method">
+    <option value="Credit Card">Credit Card</option>
+    <option value="Debit Card">Debit Card</option>
+    <option value="Cash on Delivery">Cash on Delivery</option>
+  </select>
+  <h3 id="totalAmount">Total Amount: ₹0</h3>
+  <button class="btn" onclick="goToPayment()">Proceed to Pay 💳</button>
+</div>
+
+<!-- 💳 Step 2: Card Payment -->
+<div id="paymentStep" class="step-box">
+  <h2>💳 Payment</h2>
+  <p><b>Name:</b> <span id="pName"></span></p>
+  <p><b>Address:</b> <span id="pAddress"></span></p>
+  <p><b>Phone:</b> <span id="pPhone"></span></p>
+  <p><b>Payment Method:</b> <span id="pMethod"></span></p>
+  <p><b id="pTotal"></b></p>
+  <hr>
+  <input type="text" id="cardNumber" placeholder="Card Number" required><br>
+  <input type="text" id="cardName" placeholder="Cardholder Name" required><br>
+  <input type="text" id="expiry" placeholder="MM/YY" required><br>
+  <input type="text" id="cvv" placeholder="CVV" required><br>
+  <button class="btn" onclick="showSuccess()">Pay Now ✅</button>
+</div>
+
+<!-- ✅ Step 3: Success -->
+<div id="successStep" class="step-box">
+  <h2 class="success">✅ Payment Successful!</h2>
+  <p><b>Name:</b> <span id="sName"></span></p>
+  <p><b>Address:</b> <span id="sAddress"></span></p>
+  <p><b>Phone:</b> <span id="sPhone"></span></p>
+  <p><b>Payment Method:</b> <span id="sMethod"></span></p>
+  <p><b>Total Paid:</b> <span id="sTotal"></span></p>
+  <button class="btn" onclick="goHome()">🏠 Back to Shop</button>
+</div>
+
+<script>
+// Load total from localStorage if available
+const total = localStorage.getItem("totalAmount") || "Total Amount: ₹0";
+document.getElementById("totalAmount").textContent = total;
+
+// Step 1 → Step 2
+function goToPayment() {
+  const name = document.getElementById("name").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const method = document.getElementById("method").value;
+
+  if (!name || !address || !phone) {
+    alert("Please fill all fields first!");
+    return;
+  }
+
+  const info = { name, address, phone, method, total };
+  localStorage.setItem("checkoutInfo", JSON.stringify(info));
+
+  // Hide checkout, show payment
+  document.getElementById("checkoutStep").style.display = "none";
+  document.getElementById("paymentStep").style.display = "block";
+
+  document.getElementById("pName").textContent = name;
+  document.getElementById("pAddress").textContent = address;
+  document.getElementById("pPhone").textContent = phone;
+  document.getElementById("pMethod").textContent = method;
+  document.getElementById("pTotal").textContent = total;
+}
+
+// Step 2 → Step 3
+function showSuccess() {
+  const info = JSON.parse(localStorage.getItem("checkoutInfo"));
+  document.getElementById("paymentStep").style.display = "none";
+  document.getElementById("successStep").style.display = "block";
+
+  document.getElementById("sName").textContent = info.name;
+  document.getElementById("sAddress").textContent = info.address;
+  document.getElementById("sPhone").textContent = info.phone;
+  document.getElementById("sMethod").textContent = info.method;
+  document.getElementById("sTotal").textContent = info.total;
+
+  localStorage.removeItem("cart");
+  localStorage.removeItem("totalAmount");
+  localStorage.removeItem("checkoutInfo");
+}
+
+// Back to shop
+function goHome() {
+  window.location.href = "product.html";
+}
+</script>
+
+</body>
+</html>

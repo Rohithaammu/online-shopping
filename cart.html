@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart - Mani Collections</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(to right, #f6d365, #fda085);
+      margin: 0;
+    }
+    .topbar {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+    .topbar-left {
+      font-weight: bold;
+      font-size: 22px;
+      color: #d63384;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      margin: 30px auto;
+      width: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    th { background: #ffe6b3; }
+    td img {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .total {
+      text-align: right;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .btns {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .clear-btn, .pay-btn {
+      background: #d63384;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .clear-btn:hover { background: #b91d6f; }
+    .pay-btn {
+      background: #007bff;
+    }
+    .pay-btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">🛒 Your Cart</div>
+  <div><a href="product.html">⬅ Back to Shop</a></div>
+</div>
+
+<div class="container">
+  <table id="cartTable">
+    <tr><th>Image</th><th>Name</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr>
+  </table>
+  <div class="total" id="totalAmount">Total: ₹0</div>
+
+  <div class="btns">
+    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+    <button class="pay-btn" onclick="proceedToPay()">Proceed to Pay 💳</button>
+  </div>
+</div>
+
+<script>
+function loadCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const table = document.getElementById('cartTable');
+  let total = 0;
+
+  cart.forEach(item => {
+    const subtotal = item.price * item.qty;
+    total += subtotal;
+    table.innerHTML += `
+      <tr>
+        <td><img src="${item.img}" alt="${item.name}"></td>
+        <td>${item.name}</td>
+        <td>₹${item.price}</td>
+        <td>${item.qty}</td>
+        <td>₹${subtotal}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('totalAmount').textContent = 'Total: ₹' + total;
+}
+
+function clearCart() {
+  localStorage.removeItem('cart');
+  location.reload();
+}
+
+function proceedToPay() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if (cart.length === 0) {
+    alert("Your cart is empty. Please add products before proceeding to pay.");
+    return;
+  }
+  // Optionally store total before payment
+  const total = document.getElementById('totalAmount').textContent;
+  localStorage.setItem('totalAmount', total);
+  // Redirect to payment page
+  window.location.href = "payment.html";
+}
+
+loadCart();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mani Collections - Products</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(to right, #f6d365, #fda085);
+      margin: 0;
+    }
+    .topbar {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+    .topbar-left {
+      font-weight: bold;
+      font-size: 22px;
+      color: #d63384;
+    }
+    .welcome {
+      font-size: 16px;
+      color: #333;
+      margin-left: 20px;
+    }
+    .topbar-right a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .topbar-right a:hover {
+      color: #d63384;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      margin: 30px auto;
+      width: 85%;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    h2 { text-align: center; color: #222; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    .card {
+      background: #fffaf0;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .card img {
+      width: 180px;
+      height: 180px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .card h3 { margin: 10px 0; color: #333; }
+    .price { font-weight: bold; color: #007bff; }
+    .add-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .add-btn:hover { background: #0056b3; }
+  </style>
+
+  <!-- 🔒 Immediate login check -->
+  <script>
+    const user = localStorage.getItem("loggedInUser");
+    if (!user) {
+      window.location.replace("login.html");
+    }
+  </script>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    🛍 Mani Collections
+    <span class="welcome" id="welcomeUser"></span>
+  </div>
+  <div class="topbar-right">
+    <a href="cart.html">Cart 🛒</a>
+    <!-- 🚫 Removed logout button -->
+  </div>
+</div>
+
+<div class="container">
+  <h2>Available Products</h2>
+  <div class="products" id="productList"></div>
+</div>
+
+<script>
+// 👋 Show logged-in user name
+const username = localStorage.getItem("loggedInUser");
+document.getElementById("welcomeUser").innerHTML = `Welcome, <b>${username}</b>!`;
+
+// 🛒 Product list
+const products = [
+  {id: 1, name: "Cap", price: 299, img: "images/cap.jpg"},
+  {id: 2, name: "Jacket", price: 1499, img: "images/jacket.jpg"},
+  {id: 3, name: "Jeans", price: 999, img: "images/jeans.jpg"},
+  {id: 4, name: "Shoes", price: 1299, img: "images/shoes.jpg"},
+  {id: 5, name: "T-Shirt", price: 499, img: "images/tshirt.jpg"}
+];
+
+const container = document.getElementById('productList');
+products.forEach(p => {
+  container.innerHTML += `
+    <div class="card">
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">₹${p.price}</p>
+      <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+    </div>
+  `;
+});
+
+function addToCart(id) {
+  const item = products.find(p => p.id === id);
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existing = cart.find(p => p.id === id);
+  if (existing) existing.qty++;
+  else cart.push({...item, qty: 1});
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert(`${item.name} added to cart!`);
+}
+</script>
+
+</body>
+</html>
