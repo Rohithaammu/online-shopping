@@ -153,6 +153,25 @@
 <div id="totalBox" class="total"></div>
 
 <script>
+// ✅ Function to add items to cart (used from product.html)
+function addToCart(name, price, img) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existing = cart.find(item => item.name === name);
+
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ name, price, img, qty: 1 });
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('totalAmount', cart.reduce((sum, i) => sum + i.price * i.qty, 0));
+
+  // 🚀 Immediately go to cart page
+  window.location.href = "cart.html";
+}
+
+// ✅ Load cart items dynamically
 function loadCart() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   const container = document.getElementById('cartContainer');
@@ -193,6 +212,7 @@ function loadCart() {
   localStorage.setItem('totalAmount', total);
 }
 
+// ✅ Quantity update
 function changeQty(index, delta) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart[index].qty += delta;
@@ -201,6 +221,7 @@ function changeQty(index, delta) {
   loadCart();
 }
 
+// ✅ Remove item
 function removeItem(index) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.splice(index, 1);
@@ -208,9 +229,10 @@ function removeItem(index) {
   loadCart();
 }
 
+// ✅ Checkout action
 function checkout() {
   let total = localStorage.getItem('totalAmount');
-  alert("✅ Order placed successfully!\n" + total);
+  alert("✅ Order placed successfully!\nTotal: ₹" + total);
   localStorage.removeItem('cart');
   window.location.href = 'product.html';
 }
@@ -220,3 +242,4 @@ loadCart();
 
 </body>
 </html>
+
