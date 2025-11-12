@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Login - Mani Collections</title>
-
-  <!-- ✅ Mobile optimized -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
@@ -17,7 +15,7 @@
     }
     html, body {
       height: 100%;
-      overflow: hidden; /* Prevent scroll or zoom */
+      overflow: hidden;
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f6d365, #fda085);
       display: flex;
@@ -114,16 +112,16 @@
       const storedUser = JSON.parse(localStorage.getItem("user"));
 
       if (!storedUser) {
-        document.getElementById("errorMsg").textContent = "No user found. Please register first!";
+        document.getElementById("errorMsg").textContent = "⚠️ No user found. Please register first!";
         return;
       }
 
       if (email === storedUser.email && password === storedUser.password) {
-        alert("Login successful! Welcome, " + storedUser.name);
+        alert("✅ Login successful! Welcome, " + storedUser.name);
         localStorage.setItem("loggedInUser", storedUser.name);
-        window.location.href = "product.html"; // redirect to product page
+        window.location.href = "product.html"; // redirect to products page
       } else {
-        document.getElementById("errorMsg").textContent = "Invalid email or password!";
+        document.getElementById("errorMsg").textContent = "❌ Invalid email or password!";
       }
     }
   </script>
