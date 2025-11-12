@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding-bottom: 80px;
+    padding-bottom: 150px; /* space for total box */
   }
 
   .cart-item {
@@ -143,6 +143,23 @@
     background: #1e7e34;
   }
 
+  .payment-section {
+    display: none;
+    background: #fff;
+    text-align: center;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+
+  .payment-section img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+
   @media (max-width: 600px) {
     .cart-item {
       flex-direction: column;
@@ -168,6 +185,14 @@
 <h2>Your Cart</h2>
 
 <div id="cartContainer" class="cart-container"></div>
+
+<!-- ✅ Payment Section -->
+<div id="paymentSection" class="payment-section">
+  <h3>💳 Payment Options</h3>
+  <p>Scan the QR below or proceed to pay securely!</p>
+  <img src="payment.jpg" alt="Payment QR">
+</div>
+
 <div id="totalBox" class="total"></div>
 
 <script>
@@ -176,8 +201,10 @@ function loadCart() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   const container = document.getElementById('cartContainer');
   const totalBox = document.getElementById('totalBox');
+  const paymentSection = document.getElementById('paymentSection');
 
   container.innerHTML = '';
+  paymentSection.style.display = 'none';
 
   if (cart.length === 0) {
     container.innerHTML = '<p style="text-align:center;font-size:18px;">🛒 Your cart is empty!</p>';
@@ -229,12 +256,14 @@ function removeItem(index) {
   loadCart();
 }
 
-// ✅ Checkout action
+// ✅ Checkout action with image
 function checkout() {
   let total = localStorage.getItem('totalAmount');
-  alert("✅ Order placed successfully!\nTotal: ₹" + total);
+  document.getElementById('paymentSection').style.display = 'block';
+  alert("💳 Please scan and pay ₹" + total + " to complete your order!");
   localStorage.removeItem('cart');
-  window.location.href = 'product.html';
+  document.getElementById('cartContainer').innerHTML = '<p style="text-align:center;font-size:18px;">✅ Order placed successfully!</p>';
+  document.getElementById('totalBox').innerHTML = '';
 }
 
 // Load cart when page opens
@@ -244,4 +273,3 @@ loadCart();
 </body>
 </html>
 
-</html>
