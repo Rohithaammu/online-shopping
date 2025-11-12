@@ -3,36 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>Redirecting… Mani Collections Register</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 🔄 Redirect immediately to register.html -->
-  <meta http-equiv="refresh" content="0; url=register.html">
+  <!-- Mobile-friendly settings -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Auto redirect -->
+  <meta http-equiv="refresh" content="2; url=register.html">
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #f6d365, #fda085);
-      color: #333;
+    * {
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      overflow: hidden; /* Prevent scrolling */
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f6d365, #fda085);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
       flex-direction: column;
+      color: #333;
     }
-    h2 { color: #d63384; }
-    p { color: #444; }
+    h2 {
+      color: #d63384;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1rem;
+      color: #444;
+    }
     a {
       color: #007bff;
       text-decoration: none;
       font-weight: bold;
     }
-    a:hover { text-decoration: underline; }
+    a:hover {
+      text-decoration: underline;
+    }
+    .loader {
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid #d63384;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-top: 15px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <h2>🛍 Mani Collections</h2>
-  <p>Redirecting to registration page...</p>
-  <p>If not redirected automatically, <a href="register.html">click here</a>.</p>
+  <p>Loading registration page...</p>
+  <div class="loader"></div>
+  <p>If not redirected, <a href="register.html">click here</a>.</p>
 </body>
 </html>
