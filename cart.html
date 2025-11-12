@@ -52,28 +52,33 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 12px;
+    gap: 10px;
   }
 
   .cart-item img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
     object-fit: cover;
+    border: 2px solid #eee;
   }
 
   .item-details {
     flex: 1;
-    margin-left: 10px;
+    text-align: left;
   }
 
   .item-details .name {
     font-weight: bold;
     color: #333;
+    font-size: 16px;
   }
 
   .item-details .price {
     color: #e91e63;
+    font-size: 14px;
+    margin-top: 4px;
   }
 
   .qty-controls {
@@ -137,6 +142,20 @@
   .checkout-btn:hover {
     background: #1e7e34;
   }
+
+  @media (max-width: 600px) {
+    .cart-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .item-details {
+      text-align: center;
+    }
+    .qty-controls {
+      justify-content: center;
+    }
+  }
 </style>
 </head>
 <body>
@@ -152,6 +171,7 @@
 <div id="totalBox" class="total"></div>
 
 <script>
+// ✅ Load cart from localStorage
 function loadCart() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   const container = document.getElementById('cartContainer');
@@ -192,6 +212,7 @@ function loadCart() {
   localStorage.setItem('totalAmount', total);
 }
 
+// ✅ Quantity update
 function changeQty(index, delta) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart[index].qty += delta;
@@ -200,6 +221,7 @@ function changeQty(index, delta) {
   loadCart();
 }
 
+// ✅ Remove item
 function removeItem(index) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.splice(index, 1);
@@ -207,14 +229,15 @@ function removeItem(index) {
   loadCart();
 }
 
+// ✅ Checkout action
 function checkout() {
   let total = localStorage.getItem('totalAmount');
-  alert("✅ Order placed successfully!\n" + total);
+  alert("✅ Order placed successfully!\nTotal: ₹" + total);
   localStorage.removeItem('cart');
   window.location.href = 'product.html';
 }
 
-// 🟢 Load cart immediately when page opens
+// Load cart when page opens
 loadCart();
 </script>
 
