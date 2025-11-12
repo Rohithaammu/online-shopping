@@ -2,44 +2,94 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Checkout & Payment</title>
 <style>
   body {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background: linear-gradient(to right, #f6d365, #fda085);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 10px;
   }
+
   .step-box {
-    background: rgba(255,255,255,0.95);
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 360px;
     text-align: center;
-    display: none; /* all hidden by default */
+    display: none;
   }
-  h2 { color: #333; margin-bottom: 10px; }
-  label { display:block; margin-top:10px; font-weight:bold; color:#333; }
+
+  h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
   input, textarea, select {
-    width:80%; padding:8px; margin-top:5px;
-    border-radius:5px; border:1px solid #ccc;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    box-sizing: border-box;
   }
+
+  textarea {
+    resize: none;
+    height: 60px;
+  }
+
   .btn {
-    background:#007bff;
-    color:white;
-    border:none;
-    padding:10px 20px;
-    border-radius:5px;
-    margin-top:15px;
-    cursor:pointer;
-    font-size:16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    transition: background 0.3s;
   }
-  .btn:hover { background:#0056b3; }
-  .success { color:green; font-weight:bold; }
+
+  .btn:hover {
+    background: #0056b3;
+  }
+
+  .success {
+    color: green;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #333;
+    text-align: left;
+  }
+
+  @media (max-width: 480px) {
+    h2 { font-size: 1.3rem; }
+    .btn { font-size: 0.95rem; padding: 10px; }
+    input, textarea, select { font-size: 0.9rem; }
+  }
 </style>
 </head>
 <body>
@@ -52,7 +102,7 @@
   <label>Address:</label>
   <textarea id="address" placeholder="Enter your address" required></textarea>
   <label>Phone:</label>
-  <input type="text" id="phone" placeholder="Enter your phone" required>
+  <input type="tel" id="phone" placeholder="Enter your phone" required>
   <label>Payment Method:</label>
   <select id="method">
     <option value="Credit Card">Credit Card</option>
@@ -75,7 +125,7 @@
   <input type="text" id="cardNumber" placeholder="Card Number" required><br>
   <input type="text" id="cardName" placeholder="Cardholder Name" required><br>
   <input type="text" id="expiry" placeholder="MM/YY" required><br>
-  <input type="text" id="cvv" placeholder="CVV" required><br>
+  <input type="password" id="cvv" placeholder="CVV" required><br>
   <button class="btn" onclick="showSuccess()">Pay Now ✅</button>
 </div>
 
@@ -91,11 +141,9 @@
 </div>
 
 <script>
-// Load total from localStorage if available
 const total = localStorage.getItem("totalAmount") || "Total Amount: ₹0";
 document.getElementById("totalAmount").textContent = total;
 
-// Step 1 → Step 2
 function goToPayment() {
   const name = document.getElementById("name").value.trim();
   const address = document.getElementById("address").value.trim();
@@ -103,14 +151,13 @@ function goToPayment() {
   const method = document.getElementById("method").value;
 
   if (!name || !address || !phone) {
-    alert("Please fill all fields first!");
+    alert("Please fill all fields!");
     return;
   }
 
   const info = { name, address, phone, method, total };
   localStorage.setItem("checkoutInfo", JSON.stringify(info));
 
-  // Hide checkout, show payment
   document.getElementById("checkoutStep").style.display = "none";
   document.getElementById("paymentStep").style.display = "block";
 
@@ -121,7 +168,6 @@ function goToPayment() {
   document.getElementById("pTotal").textContent = total;
 }
 
-// Step 2 → Step 3
 function showSuccess() {
   const info = JSON.parse(localStorage.getItem("checkoutInfo"));
   document.getElementById("paymentStep").style.display = "none";
@@ -138,7 +184,6 @@ function showSuccess() {
   localStorage.removeItem("checkoutInfo");
 }
 
-// Back to shop
 function goHome() {
   window.location.href = "product.html";
 }
