@@ -2,91 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Your Cart - Mani Collections</title>
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background: linear-gradient(to right, #f6d365, #fda085);
       margin: 0;
+      padding: 0;
+      overflow-x: hidden;
     }
     .topbar {
       background: #fff;
       display: flex;
       justify-content: space-between;
-      padding: 12px 40px;
+      align-items: center;
+      padding: 12px 16px;
       border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     .topbar-left {
       font-weight: bold;
-      font-size: 22px;
+      font-size: 20px;
       color: #d63384;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+    .topbar a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .topbar a:hover { color: #0056b3; }
+
     .container {
       background: rgba(255,255,255,0.95);
-      padding: 25px;
-      margin: 30px auto;
-      width: 80%;
+      padding: 15px;
+      margin: 15px;
       border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 10px;
     }
     th, td {
-      padding: 12px;
+      padding: 10px 5px;
       border-bottom: 1px solid #ddd;
       text-align: center;
+      font-size: 14px;
     }
-    th { background: #ffe6b3; }
+    th {
+      background: #ffe6b3;
+      font-size: 15px;
+    }
     td img {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 8px;
       object-fit: cover;
     }
     .total {
       text-align: right;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
-      margin-top: 20px;
+      margin-top: 15px;
+      color: #222;
     }
     .btns {
       display: flex;
-      justify-content: flex-end;
-      gap: 15px;
-      margin-top: 15px;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .clear-btn, .pay-btn {
+      flex: 1;
+      min-width: 130px;
       background: #d63384;
       color: white;
-      padding: 8px 16px;
+      padding: 10px 14px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 15px;
+      transition: background 0.3s;
     }
     .clear-btn:hover { background: #b91d6f; }
     .pay-btn {
       background: #007bff;
     }
-    .pay-btn:hover {
-      background: #0056b3;
+    .pay-btn:hover { background: #0056b3; }
+
+    /* For very small phones */
+    @media (max-width: 420px) {
+      th, td { font-size: 13px; }
+      td img { width: 70px; height: 70px; }
+      .topbar-left { font-size: 18px; }
+      .total { font-size: 16px; }
+      .clear-btn, .pay-btn { font-size: 14px; }
     }
   </style>
 </head>
+
 <body>
 
 <div class="topbar">
   <div class="topbar-left">🛒 Your Cart</div>
-  <div><a href="product.html">⬅ Back to Shop</a></div>
+  <a href="product.html">⬅ Back to Shop</a>
 </div>
 
 <div class="container">
   <table id="cartTable">
-    <tr><th>Image</th><th>Name</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Qty</th>
+      <th>Subtotal</th>
+    </tr>
   </table>
+
   <div class="total" id="totalAmount">Total: ₹0</div>
 
   <div class="btns">
@@ -101,6 +144,14 @@ function loadCart() {
   const table = document.getElementById('cartTable');
   let total = 0;
 
+  if (cart.length === 0) {
+    table.innerHTML += `
+      <tr><td colspan="5" style="text-align:center; font-weight:bold; color:#555;">
+        Your cart is empty 🛍
+      </td></tr>`;
+    return;
+  }
+
   cart.forEach(item => {
     const subtotal = item.price * item.qty;
     total += subtotal;
@@ -111,16 +162,17 @@ function loadCart() {
         <td>₹${item.price}</td>
         <td>${item.qty}</td>
         <td>₹${subtotal}</td>
-      </tr>
-    `;
+      </tr>`;
   });
 
   document.getElementById('totalAmount').textContent = 'Total: ₹' + total;
 }
 
 function clearCart() {
-  localStorage.removeItem('cart');
-  location.reload();
+  if (confirm("Are you sure you want to clear the cart?")) {
+    localStorage.removeItem('cart');
+    location.reload();
+  }
 }
 
 function proceedToPay() {
@@ -129,10 +181,8 @@ function proceedToPay() {
     alert("Your cart is empty. Please add products before proceeding to pay.");
     return;
   }
-  // Optionally store total before payment
   const total = document.getElementById('totalAmount').textContent;
   localStorage.setItem('totalAmount', total);
-  // Redirect to payment page
   window.location.href = "payment.html";
 }
 
@@ -141,3 +191,4 @@ loadCart();
 
 </body>
 </html>
+
