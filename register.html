@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Register - Mani Collections</title>
-
-  <!-- ✅ Mobile optimized -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
@@ -17,9 +15,9 @@
     }
     html, body {
       height: 100%;
-      overflow: hidden; /* prevent moving or scrolling */
+      overflow: hidden;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f6d365, #fda085);
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -37,7 +35,7 @@
     }
 
     h2 {
-      color: #d63384;
+      color: #007bff;
       font-size: 1.8rem;
       margin-bottom: 15px;
     }
@@ -54,7 +52,7 @@
 
     .btn {
       width: 85%;
-      background: #007bff;
+      background: #28a745;
       color: white;
       border: none;
       padding: 12px;
@@ -65,7 +63,7 @@
       transition: background 0.3s;
     }
     .btn:hover {
-      background: #0056b3;
+      background: #218838;
     }
 
     p {
@@ -83,6 +81,13 @@
       text-decoration: underline;
     }
 
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
@@ -93,14 +98,12 @@
 
   <div class="container">
     <h2>📝 Register</h2>
-
-    <!-- ✅ User input fields -->
     <input type="text" id="name" placeholder="Full Name" required><br>
     <input type="email" id="email" placeholder="Email" required><br>
     <input type="password" id="password" placeholder="Password" required><br>
-
     <button class="btn" onclick="registerUser()">Register</button>
     <p>Already have an account? <a href="login.html">Login</a></p>
+    <p class="error" id="errorMsg"></p>
   </div>
 
   <script>
@@ -110,18 +113,17 @@
       const password = document.getElementById("password").value.trim();
 
       if (!name || !email || !password) {
-        alert("⚠️ Please fill all fields!");
+        document.getElementById("errorMsg").textContent = "⚠️ Please fill in all fields!";
         return;
       }
 
-      // ✅ Save user data
       const user = { name, email, password };
       localStorage.setItem("user", JSON.stringify(user));
 
-      alert("✅ Registration successful! You can now log in.");
+      alert("✅ Registration successful! Please login now.");
       window.location.href = "login.html";
     }
   </script>
+
 </body>
 </html>
-
