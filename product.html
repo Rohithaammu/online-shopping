@@ -1,124 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🛍 Mani Collections</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #f6d365, #fda085);
-    margin: 0;
-    padding: 10px;
-  }
-  h2 {
-    text-align: center;
-    color: #333;
-    margin-top: 10px;
-  }
-  .product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
-  }
-  .product {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    width: 160px;
-    text-align: center;
-    padding: 10px;
-    transition: transform 0.2s;
-  }
-  .product:hover { transform: scale(1.03); }
-  .product img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  .name {
-    font-weight: bold;
-    color: #333;
-    margin: 5px 0;
-  }
-  .price {
-    color: #e91e63;
-    font-weight: bold;
-  }
-  .btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 8px;
-    font-size: 14px;
-    width: 100%;
-  }
-  .btn:hover { background: #0056b3; }
-  @media (max-width: 480px) {
-    .product { width: 46%; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🛍 Mani Collections</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f6d365, #fda085);
+      margin: 0;
+      padding: 10px;
+    }
+
+    /* 🔝 Topbar */
+    .topbar {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar-left {
+      font-weight: bold;
+      font-size: 20px;
+      color: #d63384;
+    }
+    .welcome {
+      font-size: 15px;
+      color: #333;
+      margin-left: 10px;
+    }
+
+    /* 🛍 Product Section */
+    h2 {
+      text-align: center;
+      color: #333;
+      margin: 15px 0;
+    }
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 60px; /* space for floating button */
+    }
+    .product {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      width: 160px;
+      text-align: center;
+      padding: 10px;
+      transition: transform 0.2s;
+    }
+    .product:hover { transform: scale(1.03); }
+    .product img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .name {
+      font-weight: bold;
+      color: #333;
+      margin: 5px 0;
+    }
+    .price {
+      color: #e91e63;
+      font-weight: bold;
+    }
+    .btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-size: 14px;
+      width: 100%;
+    }
+    .btn:hover { background: #0056b3; }
+
+    /* 🛒 Floating Cart Button */
+    .cart-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #d63384;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 20;
+    }
+    .cart-btn:hover {
+      background: #b91d6f;
+    }
+
+    @media (max-width: 480px) {
+      .product { width: 46%; }
+    }
+  </style>
+
+  <script>
+    // 🔒 Login check
+    const user = localStorage.getItem("loggedInUser");
+    if (!user) {
+      window.location.replace("login.html");
+    }
+  </script>
 </head>
 <body>
 
-<h2>🛒 Mani Collections</h2>
-
-<div class="product-container">
-
-  <div class="product">
-    <img src="cap.jpg" alt="Cap">
-    <div class="name">Cap</div>
-    <div class="price">₹299</div>
-    <button class="btn" onclick="addToCart('Cap', 299)">Add to Cart</button>
+<!-- 🔝 Topbar -->
+<div class="topbar">
+  <div class="topbar-left">
+    🛍 Mani Collections
+    <span class="welcome" id="welcomeUser"></span>
   </div>
-
-  <div class="product">
-    <img src="jacket.jpg" alt="Jacket">
-    <div class="name">Jacket</div>
-    <div class="price">₹1499</div>
-    <button class="btn" onclick="addToCart('Jacket', 1499)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="jeans.jpg" alt="Jeans">
-    <div class="name">Jeans</div>
-    <div class="price">₹999</div>
-    <button class="btn" onclick="addToCart('Jeans', 999)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="shoes.jpg" alt="Shoes">
-    <div class="name">Shoes</div>
-    <div class="price">₹1299</div>
-    <button class="btn" onclick="addToCart('Shoes', 1299)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="tshirt.jpg" alt="T-Shirt">
-    <div class="name">T-Shirt</div>
-    <div class="price">₹499</div>
-    <button class="btn" onclick="addToCart('T-Shirt', 499)">Add to Cart</button>
-  </div>
-
 </div>
 
+<h2>Available Products</h2>
+
+<!-- 🧢 Product Section -->
+<div class="product-container">
+  <div class="product">
+    <img src="images/cap.jpg" alt="Cap">
+    <div class="name">Cap</div>
+    <div class="price">₹299</div>
+    <button class="btn" onclick="addToCart('Cap', 299, 'images/cap.jpg')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="images/jacket.jpg" alt="Jacket">
+    <div class="name">Jacket</div>
+    <div class="price">₹1499</div>
+    <button class="btn" onclick="addToCart('Jacket', 1499, 'images/jacket.jpg')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="images/jeans.jpg" alt="Jeans">
+    <div class="name">Jeans</div>
+    <div class="price">₹999</div>
+    <button class="btn" onclick="addToCart('Jeans', 999, 'images/jeans.jpg')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="images/shoes.jpg" alt="Shoes">
+    <div class="name">Shoes</div>
+    <div class="price">₹1299</div>
+    <button class="btn" onclick="addToCart('Shoes', 1299, 'images/shoes.jpg')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="images/tshirt.jpg" alt="T-Shirt">
+    <div class="name">T-Shirt</div>
+    <div class="price">₹499</div>
+    <button class="btn" onclick="addToCart('T-Shirt', 499, 'images/tshirt.jpg')">Add to Cart</button>
+  </div>
+</div>
+
+<!-- 🛒 Floating Button -->
+<button class="cart-btn" onclick="window.location.href='cart.html'">View Cart 🛒</button>
+
 <script>
-function addToCart(name, price) {
+// 👋 Show user name
+document.getElementById("welcomeUser").innerHTML = `Welcome, <b>${user}</b>!`;
+
+// 🛍 Add to Cart function
+function addToCart(name, price, img) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  cart.push({ name, price });
+  const existing = cart.find(item => item.name === name);
+  if (existing) existing.qty++;
+  else cart.push({ name, price, img, qty: 1 });
+
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  // update total amount
-  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  // Update total
+  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   localStorage.setItem('totalAmount', "Total Amount: ₹" + total);
 
-  alert(name + " added to cart!");
+  alert(`${name} added to cart!`);
 }
 </script>
 
