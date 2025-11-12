@@ -2,87 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mani Collections - Products</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background: linear-gradient(to right, #f6d365, #fda085);
       margin: 0;
+      padding: 0;
+      overflow-x: hidden;
     }
     .topbar {
       background: #fff;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 40px;
+      padding: 12px 16px;
       border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     .topbar-left {
       font-weight: bold;
-      font-size: 22px;
+      font-size: 20px;
       color: #d63384;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .welcome {
-      font-size: 16px;
+      font-size: 14px;
       color: #333;
-      margin-left: 20px;
     }
     .topbar-right a {
-      margin-left: 20px;
       text-decoration: none;
       color: #333;
-      font-weight: 500;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
     .topbar-right a:hover {
       color: #d63384;
     }
     .container {
       background: rgba(255,255,255,0.95);
-      padding: 25px;
-      margin: 30px auto;
-      width: 85%;
+      padding: 15px;
+      margin: 15px;
       border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-    h2 { text-align: center; color: #222; }
+    h2 {
+      text-align: center;
+      color: #222;
+      margin: 10px 0 20px;
+    }
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      margin-top: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
     }
     .card {
       background: #fffaf0;
       border-radius: 10px;
-      padding: 15px;
+      padding: 10px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.02);
     }
     .card img {
-      width: 180px;
-      height: 180px;
-      border-radius: 10px;
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
       object-fit: cover;
     }
-    .card h3 { margin: 10px 0; color: #333; }
-    .price { font-weight: bold; color: #007bff; }
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+      color: #333;
+    }
+    .price {
+      font-weight: bold;
+      color: #007bff;
+      font-size: 15px;
+    }
     .add-btn {
       background: #007bff;
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 8px;
+      font-size: 14px;
+      width: 100%;
     }
-    .add-btn:hover { background: #0056b3; }
+    .add-btn:hover {
+      background: #0056b3;
+    }
+
+    /* For very small screens */
+    @media (max-width: 400px) {
+      .container {
+        margin: 10px;
+        padding: 10px;
+      }
+      h2 { font-size: 18px; }
+      .card img { height: 120px; }
+    }
   </style>
 
-  <!-- 🔒 Immediate login check -->
   <script>
     const user = localStorage.getItem("loggedInUser");
     if (!user) {
@@ -95,12 +131,10 @@
 
 <div class="topbar">
   <div class="topbar-left">
-    🛍 Mani Collections
-    <span class="welcome" id="welcomeUser"></span>
+    🛍 <span>Mani Collections</span>
   </div>
   <div class="topbar-right">
     <a href="cart.html">Cart 🛒</a>
-    <!-- 🚫 Removed logout button -->
   </div>
 </div>
 
@@ -110,17 +144,18 @@
 </div>
 
 <script>
-// 👋 Show logged-in user name
 const username = localStorage.getItem("loggedInUser");
-document.getElementById("welcomeUser").innerHTML = `Welcome, <b>${username}</b>!`;
+const welcomeMsg = document.createElement("div");
+welcomeMsg.className = "welcome";
+welcomeMsg.innerHTML = `Welcome, <b>${username}</b>`;
+document.querySelector(".topbar-left").appendChild(welcomeMsg);
 
-// 🛒 Product list
 const products = [
-  {id: 1, name: "Cap", price: 299, img: "cap.jpg"},
-  {id: 2, name: "Jacket", price: 1499, img: "jacket.jpg"},
-  {id: 3, name: "Jeans", price: 999, img: "jeans.jpg"},
-  {id: 4, name: "Shoes", price: 1299, img: "shoes.jpg"},
-  {id: 5, name: "T-Shirt", price: 499, img: "tshirt.jpg"}
+  {id: 1, name: "Cap", price: 299, img: "images/cap.jpg"},
+  {id: 2, name: "Jacket", price: 1499, img: "images/jacket.jpg"},
+  {id: 3, name: "Jeans", price: 999, img: "images/jeans.jpg"},
+  {id: 4, name: "Shoes", price: 1299, img: "images/shoes.jpg"},
+  {id: 5, name: "T-Shirt", price: 499, img: "images/tshirt.jpg"}
 ];
 
 const container = document.getElementById('productList');
@@ -148,3 +183,4 @@ function addToCart(id) {
 
 </body>
 </html>
+
