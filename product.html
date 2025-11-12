@@ -1,197 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🛍 Mani Collections</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #f6d365, #fda085);
-      margin: 0;
-      padding: 10px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🛒 Your Cart - Mani Collections</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ffecd2, #fcb69f);
+    margin: 0;
+    padding: 10px;
+  }
 
-    /* 🔝 Topbar */
-    .topbar {
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 20px;
-      border-bottom: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .topbar-left {
-      font-weight: bold;
-      font-size: 20px;
-      color: #d63384;
-    }
-    .welcome {
-      font-size: 15px;
-      color: #333;
-      margin-left: 10px;
-    }
+  .topbar {
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 
-    /* 🛍 Product Section */
-    h2 {
-      text-align: center;
-      color: #333;
-      margin: 15px 0;
-    }
-    .product-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 60px; /* space for floating button */
-    }
-    .product {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      width: 160px;
-      text-align: center;
-      padding: 10px;
-      transition: transform 0.2s;
-    }
-    .product:hover { transform: scale(1.03); }
-    .product img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-    .name {
-      font-weight: bold;
-      color: #333;
-      margin: 5px 0;
-    }
-    .price {
-      color: #e91e63;
-      font-weight: bold;
-    }
-    .btn {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 8px;
-      font-size: 14px;
-      width: 100%;
-    }
-    .btn:hover { background: #0056b3; }
+  .topbar-left {
+    font-weight: bold;
+    font-size: 20px;
+    color: #d63384;
+  }
 
-    /* 🛒 Floating Cart Button */
-    .cart-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #d63384;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 50px;
-      font-size: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 20;
-    }
-    .cart-btn:hover {
-      background: #b91d6f;
-    }
+  h2 {
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+  }
 
-    @media (max-width: 480px) {
-      .product { width: 46%; }
-    }
-  </style>
+  .cart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 80px;
+  }
 
-  <script>
-    // 🔒 Login check
-    const user = localStorage.getItem("loggedInUser");
-    if (!user) {
-      window.location.replace("login.html");
-    }
-  </script>
+  .cart-item {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .cart-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .item-details {
+    flex: 1;
+    margin-left: 10px;
+  }
+
+  .item-details .name {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .item-details .price {
+    color: #e91e63;
+  }
+
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .qty-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .qty-btn:hover {
+    background: #0056b3;
+  }
+
+  .remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .remove-btn:hover {
+    background: darkred;
+  }
+
+  .total {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .checkout-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .checkout-btn:hover {
+    background: #1e7e34;
+  }
+</style>
 </head>
 <body>
 
-<!-- 🔝 Topbar -->
 <div class="topbar">
-  <div class="topbar-left">
-    🛍 Mani Collections
-    <span class="welcome" id="welcomeUser"></span>
-  </div>
+  <div class="topbar-left">🛍 Mani Collections</div>
+  <button onclick="window.location.href='product.html'" style="background:#007bff;color:white;border:none;padding:8px 12px;border-radius:8px;">Back</button>
 </div>
 
-<h2>Available Products</h2>
+<h2>Your Cart</h2>
 
-<!-- 🧢 Product Section -->
-<div class="product-container">
-  <div class="product">
-    <img src="cap.jpg" alt="Cap">
-    <div class="name">Cap</div>
-    <div class="price">₹299</div>
-    <button class="btn" onclick="addToCart('Cap', 299, 'images/cap.jpg')">Add to Cart</button>
-  </div>
+<div id="cartContainer" class="cart-container"></div>
 
-  <div class="product">
-    <img src="jacket.jpg" alt="Jacket">
-    <div class="name">Jacket</div>
-    <div class="price">₹1499</div>
-    <button class="btn" onclick="addToCart('Jacket', 1499, 'images/jacket.jpg')">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="jeans.jpg" alt="Jeans">
-    <div class="name">Jeans</div>
-    <div class="price">₹999</div>
-    <button class="btn" onclick="addToCart('Jeans', 999, 'images/jeans.jpg')">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="shoes.jpg" alt="Shoes">
-    <div class="name">Shoes</div>
-    <div class="price">₹1299</div>
-    <button class="btn" onclick="addToCart('Shoes', 1299, 'images/shoes.jpg')">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="tshirt.jpg" alt="T-Shirt">
-    <div class="name">T-Shirt</div>
-    <div class="price">₹499</div>
-    <button class="btn" onclick="addToCart('T-Shirt', 499, 'images/tshirt.jpg')">Add to Cart</button>
-  </div>
-</div>
-
-<!-- 🛒 Floating Button -->
-<button class="cart-btn" onclick="window.location.href='cart.html'">View Cart 🛒</button>
+<div id="totalBox" class="total"></div>
 
 <script>
-// 👋 Show user name
-document.getElementById("welcomeUser").innerHTML = `Welcome, <b>${user}</b>!`;
-
-// 🛍 Add to Cart function
-function addToCart(name, price, img) {
+function loadCart() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const existing = cart.find(item => item.name === name);
-  if (existing) existing.qty++;
-  else cart.push({ name, price, img, qty: 1 });
+  const container = document.getElementById('cartContainer');
+  const totalBox = document.getElementById('totalBox');
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+  container.innerHTML = '';
 
-  // Update total
-  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  localStorage.setItem('totalAmount', "Total Amount: ₹" + total);
+  if (cart.length === 0) {
+    container.innerHTML = '<p style="text-align:center;font-size:18px;">🛒 Your cart is empty!</p>';
+    totalBox.innerHTML = '';
+    return;
+  }
 
-  alert(`${name} added to cart!`);
+  let total = 0;
+  cart.forEach((item, index) => {
+    total += item.price * item.qty;
+    container.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.img}" alt="${item.name}">
+        <div class="item-details">
+          <div class="name">${item.name}</div>
+          <div class="price">₹${item.price}</div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+          <span>${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${index})">🗑</button>
+      </div>
+    `;
+  });
+
+  totalBox.innerHTML = `
+    Total: ₹${total}
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  `;
+  localStorage.setItem('totalAmount', total);
 }
+
+function changeQty(index, delta) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart[index].qty += delta;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+function removeItem(index) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+function checkout() {
+  let total = localStorage.getItem('totalAmount');
+  alert("✅ Order placed successfully!\n" + total);
+  localStorage.removeItem('cart');
+  window.location.href = 'product.html';
+}
+
+loadCart();
 </script>
 
 </body>
